@@ -32,6 +32,7 @@
                 <td><?php echo $producto['descripcion']; ?></td>
                 <td><?php echo $producto['stock']; ?></td>
                 <td><?php echo $producto['fecha_ingreso']; ?></td>
+                <td><a href='editar.php?id=<?php echo $producto['id']; ?>'>Editar</a></td>
             </tr>
         
         <?php endforeach; ?>
