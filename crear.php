@@ -21,6 +21,7 @@
 
             if($resultado){
                 echo "<div class='alert-success'>Producto registrado con exito</div>";
+                exit;
             }else{
                 echo "<div class='alert-danger'>Error al registrar el producto</div>";
             }
