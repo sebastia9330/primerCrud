@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require 'select.php';
 ?>
 
@@ -61,7 +62,11 @@
                 </div>
             </div>
         </div>    
-
+        <?php if(!empty( $_SESSION['exito'])){
+                echo $_SESSION['exito'];
+                unset($_SESSION['exito']);
+            }; 
+        ?>
         <div class='container-fluid row'>
             <!-- creamos la tabla para mostrar los productos -->
             <div class='col-12 p-4'>

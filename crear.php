@@ -1,4 +1,5 @@
 <?php
+    
 
     if(!empty($_POST['btGuardar'])){
         if(!empty($_POST['producto']) && 
@@ -20,7 +21,8 @@
 
 
             if($resultado){
-                echo "<div class='alert-success'>Producto registrado con exito</div>";
+                $_SESSION['exito'] = "<div class='alert-success'>Producto registrado con exito</div>";
+                header("Location: index.php");
                 exit;
             }else{
                 echo "<div class='alert-danger'>Error al registrar el producto</div>";
