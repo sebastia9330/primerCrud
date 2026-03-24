@@ -1,6 +1,18 @@
 <?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
+
     session_start();
     require 'select.php';
+
+    
+
+    if(empty($_SESSION['csrf_token'])){
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -28,11 +40,12 @@
                     </div>    
                     <div class="modal-body">
                         <!-- hachemos un formulario para ingresar un poructo nuevo -->
-                        <form class='p-4' method='POST'>
+                        <form class='p-4' method='POST'>    
                         <?php
                         #llamamos los datos del archivo crear.php para usar su codigo sobre el formulario
                         include 'crear.php';
                         ?>
+                        <input type='hidden' name='token' value="<?php echo $_SESSION['csrf_token']; ?>">
                             <div class="mb-3">
                                 <label for="producto" class="form-label">Producto</label>
                                 <input type="text" class="form-control" name="producto">
@@ -97,6 +110,7 @@
                         <!-- creamos un form para enviar una peticion post que es mucho mas segura para la accion de eliminar -->
                             <form method='POST' action='eliminar.php' style='display:inline'>
                                 <input type='hidden' name='id' value="<?php echo htmlspecialchars($producto['id']); ?>">
+                                <input type='hidden' name='token' value="<?php echo $_SESSION['csrf_token']; ?>">
                                 <button class='btn btn-small btn-danger' type='submit'><i class="fa-solid fa-trash-can"></i></button>
                             </form>
                         </td>

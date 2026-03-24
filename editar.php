@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
     require 'conexion.php';
 
     $id = $_GET['id'];
@@ -9,21 +9,26 @@
     $ejecutar->execute([$id]);
     $producto = $ejecutar->fetch(PDO::FETCH_ASSOC);
 
+
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $nombre = $_POST['nombre'];
-        $precio = $_POST['precio'];
-        $descripcion = $_POST['descripcion'];
-        $stock = $_POST['stock'];
-        $fecha_ingreso = $_POST['fecha_ingreso'];
+        if($_SESSION['csrf_token'] == $_POST['token']){
+            $nombre = $_POST['nombre'];
+            $precio = $_POST['precio'];
+            $descripcion = $_POST['descripcion'];
+            $stock = $_POST['stock'];
+            $fecha_ingreso = $_POST['fecha_ingreso'];
 
-        $consulta = "UPDATE productos
-                    SET nombre=?, precio=?, descripcion=?, stock=?, fecha_ingreso=?
-                    WHERE id=?";
-        
-        $ejecutaup = $conexion->prepare($consulta);
-        $ejecutaup->execute([$nombre, $precio, $descripcion, $stock, $fecha_ingreso, $id]);
+            $consulta = "UPDATE productos
+                        SET nombre=?, precio=?, descripcion=?, stock=?, fecha_ingreso=?
+                        WHERE id=?";
+            
+            $ejecutaup = $conexion->prepare($consulta);
+            $ejecutaup->execute([$nombre, $precio, $descripcion, $stock, $fecha_ingreso, $id]);
 
-        header("Location: index.php");
+            header("Location: index.php");
+        }else{
+                echo '<div>Error de validacion, Token equivocado</div>';
+        }
     }
     ?>
 
@@ -38,6 +43,7 @@
     <body>
         
         <form class='col-4 p-4 m-auto' method='POST'>
+            <input type='hidden' name='token' value="<?php echo $_SESSION['csrf_token']; ?>">
             <h2>Editar Producto</h2>
             <div class='mb-3'>
                 <label for='producto' class="form-label">Prodcuto</label>
