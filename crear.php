@@ -5,7 +5,7 @@
 
         if(!empty($_POST['btGuardar'])){
             if($_SESSION['csrf_token'] == $_POST['token']){
-                    if(empty($_POST['producto']) || strlen($_POST['producto']) > 30){
+                    if(empty($_POST['producto']) || strlen($_POST['producto']) > 30 || requerid){
                         array_push($errores, "<div class='alert alert-warning'>Error en el campo Producto, excede la cantidad de caracteres</div>");
                     }
                     if(empty($_POST['precio']) || !is_numeric($_POST['precio'])){
